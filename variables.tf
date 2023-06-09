@@ -36,3 +36,7 @@ variable "machine_type" {
 variable "direction" {
   description = "Direction of traffic to which this firewall applies; default is INGRESS"
 }
+
+variable "credentialfile" {
+  
+}

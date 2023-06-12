@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guacamole
+  namespace: dataworks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: guacamole
+  template:
+    metadata:
+      labels:
+        app: guacamole
+    spec:
+      containers:
+      - name: guacamole
+        image: guacamole/guacamole
+        env:
+          - name: GUACD_HOSTNAME
+            value: guacd
+          - name: POSTGRES_DATABASE
+            value: datawork_db
+          - name: POSTGRES_HOSTNAME
+            value: postgres
+          - name: POSTGRES_USER
+            value: guacamole_user
+          - name: POSTGRES_PASSWORD
+            value: admin0088
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "50m"
+        ports:
+        - containerPort: 8080

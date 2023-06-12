@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: guacd
+  name: guacd
+  namespace: dataworks
+spec:
+  poorts:
+    potocol: TCP
+    port: 4822
+    targePort: 4822
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: postgres
+  name: postgres
+  namespace: dataworks
+spec:
+  poorts:
+    potocol: TCP
+    port: 5432
+    targePort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: guacamole
+  name: guacamole
+  namespace: dataworks
+spec:
+  poorts:
+    potocol: TCP
+    port: 8080
+    targePort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: debianVNC
+  name: debianVNC
+  namespace: dataworks
+spec:
+  poorts:
+    potocol: TCP
+    port: 5901
+    targePort: 5901
+    

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: dataworks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:3.18-alpine
+        env:
+          - name: POSTGRES_USER
+            value: guacamole_user
+          - name: POSTGRES_PASSWORD
+            value: admin0088
+          - name: POSTGRES_DB
+            value: datawork_db
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "50m"
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: init-volume
+          mountPath: /docker-entrypoint-initdb.d
+        - name: data-volume
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: init-volume
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: postgres-pvc

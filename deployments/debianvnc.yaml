@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: debian-vnc
+  namespace: dataworks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: debian-vnc
+  template:
+    metadata:
+      labels:
+        app: debian-vnc
+    spec:
+      containers:
+      - name: debian-vnc
+        image: alexaib/debian-vnc
+        env:
+          - name: VNC_RESOLUTION
+            value: 1280x1024
+          - name: VNC_COL_DEPTH
+            value: "24"
+          - name: VNC_PW
+            value: dataworks
+          - name: USER
+            value: root
+        command:
+          - "/bin/bash"
+          - "-c"
+          - "/usr/bin/vncserver && tail -f /dev/null"
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "50m"
+        ports:
+        - containerPort: 5901
+      volumes:
+      - name: drive-volume
+        hostPath:
+          path: /drive
+      - name: record-volume
+        hostPath:
+          path: /record

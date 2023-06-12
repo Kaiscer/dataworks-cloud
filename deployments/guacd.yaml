@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guacd
+  namespace: dataworks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: guacd
+  template:
+    metadata:
+      labels:
+        app: guacd
+    spec:
+      containers:
+        - name: guacd
+          image: guacamole/guacd
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "50m"
+          ports:
+            - containerPort: 4822
+          volumeMounts:
+            - name: drive-volume
+              mountPath: /drive
+              readOnly: false
+            - name: record-volume
+              mountPath: /record
+              readOnly: false
+      volumes:
+        - name: drive-volume
+          emptyDir: {}
+        - name: record-volume
+          emptyDir: {}
